@@ -118,7 +118,7 @@ SET /P choice="Enter your choice (1 or 0): "
 ECHO Option %choice% was selected
 IF "%choice%"=="1" (
 	ECHO Installing component files only
-	GOTO InstallPythonPackages
+	GOTO InstallGit
 ) ELSE IF "%choice%"=="0" (
 	GOTO END
 ) ELSE (
@@ -130,7 +130,7 @@ IF "%choice%"=="1" (
 
 :StartInstall
 ECHO Download ComfyUI
-curl -OL https://github.com/comfyanonymous/ComfyUI/releases/download/latest/ComfyUI_windows_portable_nvidia_or_cpu_nightly_pytorch.7z
+curl -OL https://github.com/comfyanonymous/ComfyUI/releases/latest/download/ComfyUI_windows_portable_nvidia.7z
 
 REM I've had issues with the curl command failing, so check and bail out if it has
 IF %ERRORLEVEL% NEQ 0 (
@@ -139,30 +139,59 @@ IF %ERRORLEVEL% NEQ 0 (
 ) ELSE (
     ECHO Extract ComfyUI
     IF "%comfyui_install_dir%"==".\ComfyUI_windows_portable\" (
-	tar -xvf .\ComfyUI_windows_portable_nvidia_or_cpu_nightly_pytorch.7z
+	tar -xvf .\ComfyUI_windows_portable_nvidia.7z
 		
     ) ELSE (
 		mkdir %comfyui_install_dir% 2>nul
 		pushd %comfyui_install_dir%
-		tar -xvf .\ComfyUI_windows_portable_nvidia_or_cpu_nightly_pytorch.7z
+		tar -xvf .\ComfyUI_windows_portable_nvidia.7z
 		popd
 		SET "comfyui_install_dir=%comfyui_install_dir%\ComfyUI_windows_portable\
     )
 	echo The current directory is: %CD%
-	ren ".\ComfyUI_windows_portable_nightly_pytorch" "ComfyUI_windows_portable"
 	
-    GOTO InstallPythonPackages
+	
+    GOTO InstallGit
 )
 
 
 
+
+:InstallGit
+
+:: Check if git.exe is in the system PATH
+where git.exe >nul 2>&1
+if %ERRORLEVEL% equ 0 (
+    echo Git is already installed and found in PATH.
+    goto :InstallPythonPackages
+)
+
+:: Git not found in PATH, attempt to install using winget
+echo Git not found in PATH. Installing Git...
+winget install --id Git.Git --silent --disable-interactivity
+if %ERRORLEVEL% neq 0 (
+    echo Failed to install Git using winget.
+    exit /b 1
+)
+
+:: Check if git.exe exists in the default location
+set "GIT_DEFAULT_PATH=%ProgramFiles%\Git\cmd\git.exe"
+if exist "%GIT_DEFAULT_PATH%" (
+    echo Git found at %GIT_DEFAULT_PATH%.
+    :: Add Git path to the current session's PATH
+    set "PATH=%PATH%;%ProgramFiles%\Git\cmd"
+    echo Added %ProgramFiles%\Git\cmd to the current PATH.
+) else (
+    echo Git was installed but not found at %GIT_DEFAULT_PATH%.
+    exit /b 1
+)
 
 :InstallPythonPackages
 REM Get the python packages that the install script needs
 ECHO Install the Python Dependencies
 ECHO %comfyui_install_dir%python_embeded\python.exe -m pip install --no-cache-dir requests gitpython py7zr huggingface-hub validators
 %comfyui_install_dir%python_embeded\python.exe -s -m pip install --upgrade pip
-%comfyui_install_dir%python_embeded\python.exe -m pip install  --no-cache-dir requests gitpython huggingface-hub validators
+%comfyui_install_dir%python_embeded\python.exe -m pip install  --no-cache-dir requests gitpython huggingface-hub validators pynvml
 
 
 REM Run the install script

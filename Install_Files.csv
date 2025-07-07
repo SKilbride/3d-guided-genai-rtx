@@ -1,6 +1,13 @@
-package.zip,./ComfyUI,TRUE
+Nvidia.CUDA --force --custom "-s nvcc_12.9 cudart_12.9 cusparse_dev_12.9 cusparse_12.9 cublas_dev_12.9 cublas_12.9 cufft_dev_12.9 cufft_12.9 curand_dev_12.9 curand_12.9 cusolver_dev_12.9 cusolver_12.9 npp_dev_12.9 npp_12.9 nvrtc_dev_12.9 nvrtc_12.9" --disable-interactivity,winget_install,TRUE
+Microsoft.VisualStudio.2022.BuildTools --custom "--norestart --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended" --disable-interactivity,winget_install,TRUE
+Anaconda.Miniconda3 -e --disable-interactivity ,winget_install,TRUE
+9NW1B444LDLW,winget_install,TRUE
+GitHub.GitLFS,winget_install,TRUE
 https://github.com/AIGODLIKE/ComfyUI-CUP.git,./ComfyUI/custom_nodes/ComfyUI-CUP,FALSE
 https://github.com/Comfy-Org/NIMnodes.git,./ComfyUI/custom_nodes/NIMnodes,FALSE
-./ComfyUI/installertemp/python_files/Install_Blender_Addons.py,./ComfyUI/installertemp/python_files/Install_Blender_Addons.py,TRUE
-./ComfyUI/installertemp/python_files/Copy_Blender_Files.py,./ComfyUI/installertemp/python_files/Copy_Blender_Files.py,TRUE
-./ComfyUI/installertemp/python_files/ComfyUI_NIM_Requirements.py,./ComfyUI/installertemp/python_files/ComfyUI_NIM_Requirements.py,TRUE
+../package/python_files/Install_Blender_Addons.py,./ComfyUI/installertemp/python_files/Install_Blender_Addons.py,TRUE
+../package/python_files/Copy_Blender_Files.py,./ComfyUI/installertemp/python_files/Copy_Blender_Files.py,TRUE
+../package/python_files/ComfyUI_NIM_Requirements.py,./ComfyUI/installertemp/python_files/ComfyUI_NIM_Requirements.py,TRUE
+../package/python_files/InstallChatTo3D.py,InstallChatTo3D.py,TRUE
+../package/python_files/run_ngc_podman_flux.py,run_ngc_podman_flux.py,TRUE
+../package/python_files/run_ngc_podman_llama.py,run_ngc_podman_llama.py,TRUE

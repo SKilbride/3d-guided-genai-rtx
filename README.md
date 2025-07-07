@@ -11,12 +11,31 @@ The blueprint produces high-quality outputs by leveraging the FLUX.dev NIM, usin
 
 This blueprint is ready for non-commercial use. Contact sales@blackforestlabs.ai for commercial terms.
 
-> This blueprint supports the following NVIDIA GPUs:  RTX 5090, RTX 5080, RTX 4090, RTX 6000 Ada. We recommend at least 48 GB of system RAM. We are in the process of adding support for more GPUs. 
+> This blueprint supports the following NVIDIA GPUs:  RTX 5090, RTX 5080, RTX 4090, RTX 4090 Laptop, RTX 4080, RTX 6000 Ada. We recommend at least 48 GB of system RAM. 
 
 # Prerequisites: 
 The NIM Prerequisite Installer requires Microsoft User Account Control (UAC) to be enabled.  UAC is enabled by default for Windows, but if it has been disabled, it must be enabled to ensure successful installation of the NIM Prerequisite Installer.  More information on Microsoft UAC can found [HERE](https://support.microsoft.com/en-us/windows/user-account-control-settings-d5b2046b-dcb8-54eb-f732-059f321afe18)
 
-Download the [NIM Prerequisite Installer](https://assets.ngc.nvidia.com/products/api-catalog/rtx/NIM_Prerequisites_Installer_03052025.zip), extract the zip file and run the NIMSetup.exe file, and follow the instructions in the setup dialogs. This will install the necessary system components to work with NVIDIA NIMs on your system.
+Download the MS Visual Studio Build Tools [vs_buildTools.exe](https://aka.ms/vs/17/release/vs_BuildTools.exe)
+Open a command prompt at the vs_BuildTools.exe file location and send the following command:
+```
+vs_buildtools.exe --norestart --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
+```
+Use winget to install Miniconda:
+```
+winget install miniconda3
+```
+Download the NVIDIA CUDA Toolkit 12.9
+[NVIDIA CUDA Toolkit 12.9](https://developer.download.nvidia.com/compute/cuda/12.9.0/local_installers/cuda_12.9.0_576.02_windows.exe)
+Run the installer and select a custom installation.
+![Screenshot 2025-05-22 221843](https://github.com/user-attachments/assets/e2e7fe07-d530-4aca-9668-a8566d1d5864)
+From the options select ONLY:  
+CUDA  >> Development >> Compiler
+CUDA >> Runtime >> Libraries
+![Screenshot 2025-05-22 222023](https://github.com/user-attachments/assets/9ccd92cc-55a5-467d-b4f3-f1e821a07689)
+Complete the installation
+
+Download the [NIM Prerequisite Installer](https://assets.ngc.nvidia.com/products/api-catalog/rtx/NIMSetup.exe), and run the NIMSetup.exe file, and follow the instructions in the setup dialogs. This will install the necessary system components to work with NVIDIA NIMs on your system.
 
 You will need to reboot your computer to complete the installation.
 
@@ -84,7 +103,15 @@ Once you have generated an access token you’ll need to agree to the FluxDev No
 
 Click the Agree and access repository button.
 
-Repeat the above process to accept the license for the ONNX variant: [https://huggingface.co/black-forest-labs/FLUX.1-dev-onnx](https://huggingface.co/black-forest-labs/FLUX.1-dev-onnx)
+Repeat the above process to accept the license for the following FLUX model variants:
+| Model      |URL |
+| ----------- | ----------- |
+| FLUX.1-Canny-dev      | [https://huggingface.co/black-forest-labs/FLUX.1-Canny-dev](https://huggingface.co/black-forest-labs/FLUX.1-Canny-dev) |
+| FLUX.1-Depth-dev      | [https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev](https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev) |
+| FLUX.1-dev-onnx       | [https://huggingface.co/black-forest-labs/FLUX.1-dev-onnx](https://huggingface.co/black-forest-labs/FLUX.1-dev-onnx) |
+| FLUX.1-Canny-dev-onnx | [https://huggingface.co/black-forest-labs/FLUX.1-Canny-dev-onnx](https://huggingface.co/black-forest-labs/FLUX.1-Canny-dev-onnx) |
+| FLUX.1-Depth-dev-onnx | [https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev-onnx](https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev-onnx) |
+
 
 # Installing the Blueprint:
 
@@ -146,7 +173,7 @@ If the Run button does not appear or the **Launch/Connect to ComfyUI** reappears
 
 Click the Run button.
 
-The first time the FLUX NIM is utilized it will need to download models from NVIDIA NGC and setup the FLUX NIM container, this process can take up to 20 minutes or more depending on the connection speed. Note that if it takes >30 minutes to run, it may time out and give an error. If so, you'll need to run it a second time, which should succeed.
+The first time the FLUX NIM is utilized it will need to download models from NVIDIA NGC and setup the FLUX NIM container, this process can take up to 20 minutes or more depending on the connection speed.
 
 # Guided GenAI Workflow
 
@@ -212,10 +239,76 @@ Closing Blender after the FLUX NIM has been loaded may leave the NIM running in 
 9. ![Untitled-28](https://github.com/user-attachments/assets/b98f38c7-8ec8-4d65-bd50-6a655f0a35d8)
 10. You can re-run the wsl podman ps -a command to verify that the FLUX_NIM is no longer running.
 
+# Using CHAT-TO-3D for 3D Object Generation
+CHAT-TO-3D is automatically installed with this blueprint, it allows you to generate 3D assets using an LLM front end connected to a TRELLIS 3D object generation service
 
-   
+## Usage - Blender Add On
+The CHAT-TO-3D Blender add-on can automatically manage the CHAT-TO-3D services without the need to manually start or stop these services outside of Blender.
+### Initial Setup Step
+1. Open Blender
+2. Open Edit >> Preferences >> Add-Ons
+3.![image](https://github.com/user-attachments/assets/0dd045e1-225a-425f-9f96-9047f3ad476a)
+4. Enable CHAT-To-3D and Asset Importer by checking the boxes next to the add on names.
+5. Open the CHAT-TO-3D add on preferences and set the CHAT-TO-3D base folder to the chat-to-3d local repository directory.
+6. ![image](https://github.com/user-attachments/assets/1f9b6bec-dd13-4a7b-9a02-ac9c84a56869)
+### Normal Usage
+7. In the 3D layout view look for the Add On tabs on the right edge of the viewport, press N if they are not visible
+8. ![image](https://github.com/user-attachments/assets/2bfc6cb2-aa3a-4422-b1d1-a983ed21407d)
+9. Note: It is recommended to open a system console viewer to monitor the services and any information or errors that may be output.
+   a. Blender Menu >> Window >> Toggle System Console
+10. Click the Start CHAT-TO-3D button to start the LLM agent, and the Trellis 3D services.
+11. ![image](https://github.com/user-attachments/assets/b5391eed-0cca-45da-952a-04381804c0b5)
+12. Once all services have successfully started, the service will indicate: READY and the OPEN CHAT-TO-3D UI button will become available
+13. Click the OPEN CHAT-TO-3D UI button to launch the CHAT-TO-3D interface
+    
+### Using the Interface
+![image](https://github.com/user-attachments/assets/8590e6fd-32cb-4974-bcc9-284ef7d1eaa2)
+Once the application is running, you can:
+1. **Scene Planning**:
+   - Describe your desired scene in natural language
+   - ![image](https://github.com/user-attachments/assets/38c408f6-219e-4fdc-93f4-5abaea80b391)
+
+   - Get AI suggestions for objects and layout
+   - ![image](https://github.com/user-attachments/assets/40f3c85e-2024-499b-bc1c-926d478f0555)
+  
+   - Select the desired objects
+   - ![image](https://github.com/user-attachments/assets/7e389a1b-f9da-4d1f-bc45-e854e8b6cee3)
+
+   - Refine your scene description
+   - ![image](https://github.com/user-attachments/assets/5779fbb4-40ad-437a-8f3f-7f4191df1cdd)
+  
+   - Generate 3D Prompts for selected objects
+   - ![image](https://github.com/user-attachments/assets/cadf5ba7-516f-4fee-9992-ac4e70c0f6d6)
+
+2. **Asset Generation**:
+   - Modify the generated prompt if desired
+   - Generate object variant previews for a single object or for all objects
+   -![image](https://github.com/user-attachments/assets/5dfb5ba2-c718-4594-8a9b-b4584f5599fb)
+
+   - Select a desired variant and click Select this Variant button
+   - ![image](https://github.com/user-attachments/assets/8f3a488f-f50d-4586-ab1c-76f6d7e54c49)
+  
+   - Select a Single Image and click *Generate 3D Model for Selected Variant* button
+   - Or click *Generate 3D Models for all Selected Variants* button
+   - ![image](https://github.com/user-attachments/assets/d028ec91-b279-4057-ade1-ea4e15cf9454)
+  
+   - Preview generated assets
+   - ![image](https://github.com/user-attachments/assets/593bcb43-a4ef-4f8a-b2ba-94d3cbb7a57e)
+
+   - Save generated asset to a scene folder
+   - Create a unique folder output for all objects generated in this session
+   - ![image](https://github.com/user-attachments/assets/dddae747-0f54-43bc-9fc8-620e35f44a1f)
 
 
+4. **Blender Integration**:
+   - Import generated assets directly into Blender
+   - ![image](https://github.com/user-attachments/assets/e6942a0c-6e03-4cbb-9bd6-63507e7eddac)
+   - Use the Asset Importer add-on and select the desired scene folder, and click Import assets
+   - ![image](https://github.com/user-attachments/assets/b9119900-1780-42cd-a071-6f7d9397984e)
+   - Assets are imported and the asset tag is applied, saving the scene to the %userprofile%\Documents\Blender\assets folder will add the imported objects to the Blender asset browser.
+   - ![image](https://github.com/user-attachments/assets/c3d705c1-fc21-4137-a6e1-004c9d9b0b5a)
+   - Continue working with the assets in your 3D workflow
+   - Can be used with  [3D Guided Gen AI BP](https://github.com/NVIDIA-AI-Blueprints/3d-guided-genai-rtx)
 
 
 # Restarting the ComfyUI Server
@@ -228,17 +321,5 @@ Click the ![image126](https://github.com/user-attachments/assets/fddc145f-ac73-4
 
 Re-run the workflow.
 
-# Troubleshooting
 
-**Problem:**  NIMSetup.exe continuously requests that you restart to continue the setup process.
-
-**Solution:** Changing the Windows display language to English will fix this issue. This is a bug and will be fixed in an upcoming patch.
-
-**Problem:**  The ComfyUI workflow times out on the first run, giving this error: {'type': 'TimeoutError', 'message': 'NIM Server did not start within the specified timeout.'}
-
-**Solution:** If the time to execute a prompt, including NIM setup, takes longer than 30 mins (1800 secs), the NIM node times out so it doesn't wait indefinitely. The only time this should happen is during first run, when it needs to download all the NIM models. If this happens, simply run again - it should no longer time out since it no longer needs to do all the first time run steps again.
-
-**Problem:**  When running Setup.bat you receive an error "tar: LZMA codec is unsupported" "tar: Error exit delayed from previous errors."
-
-**Solution:** Manually extract the *ComfyUI_windows_portable_nvidia.7z* file using 7-zip. If necessary install 7-zip using `winget install 7-zip` Then issue the following command from a command prompt at the location containing *setup.bat*  `"C:\Program Files\7-Zip\7z x ComfyUI_windows_portable_nvidia.7z`  Once the files have successfully extracted, re-run Setup.bat and choose the option to resume the installation. 
 
