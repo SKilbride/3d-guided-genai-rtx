@@ -80,8 +80,14 @@ Repeat the above process to accept the license for the following FLUX model vari
 
 
 # Installing the Blueprint:
+Press <kbd>win</kbd>+<kbd>r</kbd> to open the Windows Run dialog. Type in <code>cmd</code> to search for Command Prompt
+![image](https://github.com/user-attachments/assets/7e18c6f6-6bab-4d71-b074-2efe968e174d)
 
-Open a command prompt at the location where you would like the Blueprint files to be installed.
+Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>enter</kbd> to launch Command Prompt as administrator.
+
+Select <code>Yes</code> when presented with the User Account Control dialog.
+
+In this new command prompt, cd to the location where you would like the Blueprint files to be installed.
 
 Download the Blueprint and start the installation using the following command:
 ```
