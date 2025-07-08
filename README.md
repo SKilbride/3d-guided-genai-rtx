@@ -1,4 +1,4 @@
-<h2><img align="center" src="https://github.com/user-attachments/assets/cbe0d62f-c856-4e0b-b3ee-6184b7c4d96f">3D Guided Generative AI Blueprint - FLUX.dev NIM</h2>
+<h2><img align="center" src="https://github.com/user-attachments/assets/cbe0d62f-c856-4e0b-b3ee-6184b7c4d96f">3D Guided Generative AI Blueprint</h2>
 
 # Description: 
 The 3D Guided Generative AI Blueprint unlocks greater control over image generation by laying out the content in Blender to guide the image layout. Users can quickly alter the look of the 3D scene using generative AI, and the image outputs can be iterated on by making simple changes in the 3D viewport - such as changing the image perspective by adjusting the camera angle in Blender. Creators can ideate on scene environments much faster using generative AI, and adjustments are made much faster due to the control offered by using the viewport as a depth map.    
@@ -16,25 +16,6 @@ This blueprint is ready for non-commercial use. Contact sales@blackforestlabs.ai
 # Prerequisites: 
 The NIM Prerequisite Installer requires Microsoft User Account Control (UAC) to be enabled.  UAC is enabled by default for Windows, but if it has been disabled, it must be enabled to ensure successful installation of the NIM Prerequisite Installer.  More information on Microsoft UAC can found [HERE](https://support.microsoft.com/en-us/windows/user-account-control-settings-d5b2046b-dcb8-54eb-f732-059f321afe18)
 
-Download the MS Visual Studio Build Tools [vs_buildTools.exe](https://aka.ms/vs/17/release/vs_BuildTools.exe)
-Open a command prompt at the vs_BuildTools.exe file location and send the following command:
-```
-vs_buildtools.exe --norestart --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
-```
-Use winget to install Miniconda:
-```
-winget install miniconda3
-```
-Download the NVIDIA CUDA Toolkit 12.9
-[NVIDIA CUDA Toolkit 12.9](https://developer.download.nvidia.com/compute/cuda/12.9.0/local_installers/cuda_12.9.0_576.02_windows.exe)
-Run the installer and select a custom installation.
-![Screenshot 2025-05-22 221843](https://github.com/user-attachments/assets/e2e7fe07-d530-4aca-9668-a8566d1d5864)
-From the options select ONLY:  
-CUDA  >> Development >> Compiler
-CUDA >> Runtime >> Libraries
-![Screenshot 2025-05-22 222023](https://github.com/user-attachments/assets/9ccd92cc-55a5-467d-b4f3-f1e821a07689)
-Complete the installation
-
 Download the [NIM Prerequisite Installer](https://assets.ngc.nvidia.com/products/api-catalog/rtx/NIMSetup.exe), and run the NIMSetup.exe file, and follow the instructions in the setup dialogs. This will install the necessary system components to work with NVIDIA NIMs on your system.
 
 You will need to reboot your computer to complete the installation.
@@ -43,25 +24,10 @@ Git is required and should be installed using winget from a command prompt::
 ```
 winget install --id Git.Git 
 ```
-
-Install Microsoft Visual C++ 2015-2022 Redistributable Package  
-[https://aka.ms/vs/17/release/vc\_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-or
-```
-winget install Microsoft.VCRedist.2015+.x64
-```
-![Untitled-8](https://github.com/user-attachments/assets/29184836-3791-4c22-8a40-3254590faa0e)
-
-This blueprint requires the installation of Blender. The blueprint has been tested with the Blender 4.27 LTS (Long Term Support) build.   
-[https://www.blender.org/download/release/Blender4.2/blender-4.2.7-windows-x64.msi](https://www.blender.org/download/release/Blender4.2/blender-4.2.7-windows-x64.msi)
-
-Blender 4.27 can also be installed using winget from a command prompt:
-```
-winget install --id 9NW1B444LDLW
-```
-
-| IMPORTANT NOTE | Once Blender has been installed, you must open and then close the Blender application to properly set the paths needed by the Blueprint installer. |
-| :---- | :---- |
+The Setup script will install several 3rd party software packages, by installing this blueprint you agree to the individual licenses for these software packages:
+* Microsoft Visual C++ 2015-2022 Redistributable Package
+* Blender
+* Microsoft VisualStudio 2022 BuildTools
 
 # Obtain a HuggingFace API Access Token  
 Open and command prompt and type the following:  
@@ -117,21 +83,17 @@ Repeat the above process to accept the license for the following FLUX model vari
 
 Open a command prompt at the location where you would like the Blueprint files to be installed.
 
-Download the Blueprint using Git.
+Download the Blueprint and start the installation using the following command:
 ```
-git clone https://github.com/NVIDIA-AI-Blueprints/3d-guided-genai-rtx.git
+git clone https://github.com/NVIDIA-AI-Blueprints/3d-guided-genai-rtx.git && cd 3d-guided-genai-rtx && setup.bat
 ```
-Then 
-```
-cd 3d-guided-genai-rtx
-```
-
-From 3d-guided-genai-rtx folder, run Setup.bat (It is recommended to run this batch file from the command line)
 
 The setup installer will install ComfyUI, the ComfyUI plugin for Blender, and other components required for the blueprint. 
 
-Installation will take up to 20 minutes depending on download speed.  
-Once complete the installation will list the ComfyUI Path, and Python Path, this information will be used to set up the Blender ComfyUI add-on.   
+As part of the setup process the NIM models will be downloaded and cached on the system for later use in the blueprint.
+
+Installation will take up to 90 minutes depending on download speed.  
+Once complete the installation will list the ComfyUI Path, and Python Path, this information can be used to verify the settings in the Blender ComfyUI add-on.   
 ![Untitled-5](https://github.com/user-attachments/assets/ef8f876b-883a-4afe-8820-5b97908da86c)
 
 # Configure Blender:
@@ -143,7 +105,7 @@ Select the Add-On section , and click the checkbox next to ComfyUI BlenderAI nod
 Expand the ComfyUI BlenderAI node section by clicking on the \>  
 ![Untitled-10](https://github.com/user-attachments/assets/a8667460-d3ae-4e57-8bfe-10853dc2f7a1)
 
-In the ComfyUI Path and the Python Path configuration section, input the paths shown at the end of the blueprint installation process. Alternatively, you can click the folder icon and navigate to the installation location and select the ComfyUI folder, and the python\_embedded folder in the ComfyUI installation. 
+The Add-On will attempt to automatically configure the paths for the ComfyUI and Comfy Python locations. In the ComfyUI Path and the Python Path configuration section, verify that these paths match the paths shown at the end of the blueprint installation process. Alternatively, you can click the folder icon and navigate to the installation location and select the ComfyUI folder, and the python\_embedded folder in the ComfyUI installation. 
 
 ## Open the Blueprint Blender File
 
