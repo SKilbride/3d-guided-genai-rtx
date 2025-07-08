@@ -506,14 +506,14 @@ os.chdir(installFolder)
 baseFolder = os.path.normpath(os.path.dirname(os.path.abspath(__file__)))
 
 # Now get the ComfyManager from it's git repo
-repository_url = "https://github.com/ltdrdata/ComfyUI-Manager.git"
+# repository_url = "https://github.com/ltdrdata/ComfyUI-Manager.git"
 # Where ComfyManager will go
-destination_folder = "./ComfyUI/custom_nodes/ComfyUI-Manager"
+# destination_folder = "./ComfyUI/custom_nodes/ComfyUI-Manager"
 # Create the target directory
-os.makedirs(os.path.dirname(destination_folder), exist_ok=True)
+# os.makedirs(os.path.dirname(destination_folder), exist_ok=True)
 # Cloning the repository
-manage_package('ComfyUI-Manager',repository_url, destination_folder)
-subprocess.call([sys.executable, '-m', 'pip', 'install','-r','./ComfyUI/custom_nodes/ComfyUI-Manager/requirements.txt'])
+# manage_package('ComfyUI-Manager',repository_url, destination_folder)
+# subprocess.call([sys.executable, '-m', 'pip', 'install','-r','./ComfyUI/custom_nodes/ComfyUI-Manager/requirements.txt'])
 
 # Load the CSV file and iterate over each line
 print(manifestFile)
