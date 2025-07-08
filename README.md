@@ -11,7 +11,7 @@ The blueprint produces high-quality outputs by leveraging the FLUX.dev NIM, usin
 
 This blueprint is ready for non-commercial use. Contact sales@blackforestlabs.ai for commercial terms.
 
-> This blueprint supports the following NVIDIA GPUs:  RTX 5090, RTX 5080, RTX 4090, RTX 4090 Laptop, RTX 4080, RTX 6000 Ada. We recommend at least 48 GB of system RAM. 
+> This blueprint supports the following NVIDIA GPUs:  RTX 5090, RTX 5090 Laptop, RTX 5080, RTX 4090, RTX 4090 Laptop, RTX 4080, RTX 6000 Ada. We recommend at least 48 GB of system RAM. 
 
 # Prerequisites: 
 The NIM Prerequisite Installer requires Microsoft User Account Control (UAC) to be enabled.  UAC is enabled by default for Windows, but if it has been disabled, it must be enabled to ensure successful installation of the NIM Prerequisite Installer.  More information on Microsoft UAC can found [HERE](https://support.microsoft.com/en-us/windows/user-account-control-settings-d5b2046b-dcb8-54eb-f732-059f321afe18)
