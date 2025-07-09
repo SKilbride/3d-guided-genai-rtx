@@ -61,11 +61,11 @@ if blender_path.exists():
         if not addon_path.exists():
             Repo.clone_from(repo_url, addon_path, branch=branch_name)
             print(f'ComfyUI-Blender-AI addon installed to: {addon_path}')
-            pref_new = os.path.normpath(os.path.join(current_directory,'../package/patch_files/preference.py'))
-            pref_dest = os.path.normpath(os.path.join(addon_path,'preference.py'))
+            #pref_new = os.path.normpath(os.path.join(current_directory,'../package/patch_files/preference.py'))
+            #pref_dest = os.path.normpath(os.path.join(addon_path,'preference.py'))
 
-            print(f"\n--- Attempting to copy {pref_new} to destination_folder {pref_dest} / ---")
-            copy_file(pref_new, pref_dest)
+            #print(f"\n--- Attempting to copy {pref_new} to destination_folder {pref_dest} / ---")
+            #copy_file(pref_new, pref_dest)
 	
         else: 
             print(f'Found an existing addon installation at: {addon_path}.')
