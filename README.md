@@ -90,25 +90,22 @@ Repeat the above process to accept the license for the following FLUX model vari
 </details>
 
 # Installing the Blueprint:
-Press <kbd>win</kbd>+<kbd>r</kbd> to open the Windows Run dialog. Type in <code>cmd</code> to search for Command Prompt
-![image](https://github.com/user-attachments/assets/7e18c6f6-6bab-4d71-b074-2efe968e174d)
+Open a new Command Prompt and cd to the location where you would like the blueprint files to be installed.
 
-Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>enter</kbd> to launch Command Prompt as administrator.
-
-Select <code>Yes</code> when presented with the User Account Control dialog.
-
-In this new command prompt, cd to the location where you would like the Blueprint files to be installed.
 
 Download the Blueprint and start the installation using the following command:
 ```
 git clone https://github.com/NVIDIA-AI-Blueprints/3d-guided-genai-rtx.git && cd 3d-guided-genai-rtx && setup.bat
 ```
+During the setup process you will be instructed to agree to the 3rd party licenses to continue. Press "y" and enter to accept the licenses and continue the installation.
+
+Select <code>Yes</code> when presented with the User Account Control dialog.
 
 The setup installer will install ComfyUI, the ComfyUI plugin for Blender, and other components required for the blueprint. 
 
 As part of the setup process the NIM models will be downloaded and cached on the system for later use in the blueprint.
 
-Installation will take up to 90 minutes depending on download speed.  
+Installation may take up to 90 minutes depending on download speed.  
 Once complete the installation will list the ComfyUI Path, and Python Path, this information can be used to verify the settings in the Blender ComfyUI add-on.   
 ![Untitled-5](https://github.com/user-attachments/assets/ef8f876b-883a-4afe-8820-5b97908da86c)
 
