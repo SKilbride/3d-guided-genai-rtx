@@ -1,5 +1,85 @@
 @echo off
-:: BatchGotAdmin
+::echo DEBUG: Starting script
+:check_hf_token
+::echo DEBUG: Entered check_hf_token
+setlocal EnableDelayedExpansion
+::echo DEBUG: After setlocal
+echo.
+::echo DEBUG: Checking HF_TOKEN
+::echo DEBUG: About to evaluate HF_TOKEN
+set "HF_TOKEN_CHECK=%HF_TOKEN%"
+::echo DEBUG: HF_TOKEN value = %HF_TOKEN_CHECK%
+if "%HF_TOKEN%"=="" (
+    ::echo DEBUG: HF_TOKEN is not defined
+    :enter_token_loop
+    echo A Huggingface token is not set. A Huggingface token is required for this blueprint, 
+	echo provide your Huggingface token to continue the installation.
+	echo.
+    set /p "hf_token_input=Enter your Huggingface token (starts with 'hf_') or type 'n' to skip: "
+    ::echo DEBUG: User input = !hf_token_input!
+    set "hf_token_input_lower=!hf_token_input!"
+    for %%i in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do set "hf_token_input_lower=!hf_token_input_lower:%%i=%%i!"
+    ::echo DEBUG: Lowercase input = !hf_token_input_lower!
+    if /i "!hf_token_input_lower!"=="n" (
+        echo Skipping Huggingface token entry.
+        echo Huggingface token required for blueprint setup.
+        goto :user_terminated
+    ) else if "!hf_token_input:~0,3!"=="hf_" (
+        echo Setting HF_TOKEN...
+        setx HF_TOKEN "!hf_token_input!"
+        echo HF_TOKEN set. 
+        ::echo DEBUG: Token set, going to prompt_continue
+        goto :prompt_continue
+    ) else (
+        echo Invalid token format. Token must start with "hf_" or you must type 'n' to skip.
+        ::echo DEBUG: Invalid input, looping back
+        goto :enter_token_loop
+    )
+) else (
+    ::echo DEBUG: HF_TOKEN
+	goto :prompt_continue
+)
+
+:user_terminated
+echo Installation terminated...
+goto :END
+
+:prompt_continue
+echo.
+echo This blueprint will install the following third party software:
+echo     *  Blender 4.2 LTS - license - https://www.blender.org/about/license/
+echo     *  MICROSOFT VISUAL C++ 2015 - 2022 RUNTIME - license - https://visualstudio.microsoft.com/license-terms/vs2022-cruntime/
+echo     *  MICROSOFT VISUAL STUDIO 2022 - BUILD TOOLS - license - https://visualstudio.microsoft.com/license-terms/vs2022-ga-diagnosticbuildtools/
+echo By installing this blueprint you accept the license agreements for the third party software shown above.
+set "choice="
+set /p "choice=Do you want to continue (y/n)? "
+:: Trim and validate input
+if not defined choice (
+    echo Input was empty. Please enter 'y' or 'n'.
+    goto :prompt_continue
+)
+:: Remove leading/trailing spaces
+for /f "tokens=*" %%i in ("%choice%") do set "choice=%%i"
+:: Convert to lowercase using simpler method
+set "choice_lower=%choice%"
+set "choice_lower=%choice_lower:Y=y%"
+set "choice_lower=%choice_lower:N=n%"
+
+:: Debug output
+echo DEBUG: choice=%choice%, choice_lower=%choice_lower%
+
+if /i "%choice_lower%"=="y" (
+    echo Continuing...
+    goto :BatchGotAdmin
+) else if /i "%choice_lower%"=="n" (
+    echo Exiting...
+    goto :end
+) else (
+    echo Invalid input. Please enter 'y' or 'n'.
+    goto :prompt_continue
+)
+
+:BatchGotAdmin
 ::-------------------------------------
 REM  --> Check for permissions
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
