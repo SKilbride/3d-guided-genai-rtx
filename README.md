@@ -13,27 +13,35 @@ This blueprint is ready for non-commercial use. Contact sales@blackforestlabs.ai
 
 > This blueprint supports the following NVIDIA GPUs:  RTX 5090, RTX 5090 Laptop, RTX 5080, RTX 4090, RTX 4090 Laptop, RTX 4080, RTX 6000 Ada. We recommend at least 48 GB of system RAM. 
 
-# Prerequisites: 
-The NIM Prerequisite Installer requires Microsoft User Account Control (UAC) to be enabled.  UAC is enabled by default for Windows, but if it has been disabled, it must be enabled to ensure successful installation of the NIM Prerequisite Installer.  More information on Microsoft UAC can found [HERE](https://support.microsoft.com/en-us/windows/user-account-control-settings-d5b2046b-dcb8-54eb-f732-059f321afe18)
+<details>
+<summary><h1>STEP 1 - NIM Pre-Requisite Installer</h1></summary>  
+The NIM Prerequisite Installer requires Microsoft User Account Control (UAC) to be enabled.  UAC is enabled by default for Windows, but if it has been disabled, it must be enabled to ensure successful installation of the NIM Prerequisite Installer.  
+
+  
+More information on Microsoft UAC can found:  <a href="https://support.microsoft.com/en-us/windows/user-account-control-settings-d5b2046b-dcb8-54eb-f732-059f321afe18">HERE</a>
+
 
 Download the [NIM Prerequisite Installer](https://assets.ngc.nvidia.com/products/api-catalog/rtx/NIMSetup.exe), and run the NIMSetup.exe file, and follow the instructions in the setup dialogs. This will install the necessary system components to work with NVIDIA NIMs on your system.
+<img width="888" height="662" alt="image" src="https://github.com/user-attachments/assets/59f8e314-76ce-40d4-ae8c-3b096123e5b5" />
 
 You will need to reboot your computer to complete the installation.
+</details> 
+<details>
+  <summary><h1>STEP 2 - GIT Install</h1></summary>
+Git is required and should be installed using winget from a command prompt:
 
-Git is required and should be installed using winget from a command prompt::
 ```
-winget install --id Git.Git 
+winget install --id Git.Git
 ```
-The Setup script will install several 3rd party software packages, by installing this blueprint you agree to the individual licenses for these software packages:
-* Microsoft Visual C++ 2015-2022 Redistributable Package
-* Blender
-* Microsoft VisualStudio 2022 BuildTools
-  
+</details> 
+
+<details><summary><h1>STEP 3 - Model License Acceptance</h1></summary>
+<blockqoute>
 <details>
    
-<summary><h2>Get or Verify HuggingFace API Access</h2></summary>
-
-# Obtain a Hugging Face API Access Token  
+<summary><h2>STEP 3a - Get or Verify HuggingFace API Access</h2></summary>
+<blockquote>
+<b>Obtain a Hugging Face API Access Token</b>  
 Open and command prompt and type the following:  
 
 ```
@@ -67,11 +75,12 @@ Open a command prompt and issue the following command:
 | ----------- |
 
 *hf_access_token* represents the actual access token value you created in the step above.
+</blockquote>
 </details>
 
 <details>
 
-<summary><h2>Accept FLUX Non-Commercial License Agreements</h2></summary>
+<summary><h2>STEP 3b - Accept FLUX Non-Commercial License Agreements</h2></summary>
 
 Once you have generated an access token you’ll need to agree to the FluxDev Non-Commercial License Agreement and acknowledge the Acceptable Use Policy by visiting:  [https://huggingface.co/black-forest-labs/FLUX.1-dev](https://huggingface.co/black-forest-labs/FLUX.1-dev)  
 ![Untitled-4](https://github.com/user-attachments/assets/b903d754-5b8b-43d2-a784-e0a7b075b1d1)
@@ -88,7 +97,9 @@ Repeat the above process to accept the license for the following FLUX model vari
 | FLUX.1-Depth-dev-onnx | [https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev-onnx](https://huggingface.co/black-forest-labs/FLUX.1-Depth-dev-onnx) |
 
 </details>
-
+</blockquote>
+</details>
+<details><summary><h1>STEP 4 - Blueprint Download/Installation</h1></summary>
 # Installing the Blueprint:
 Open a new Command Prompt and cd to the location where you would like the blueprint files to be installed.
 
@@ -97,6 +108,11 @@ Download the Blueprint and start the installation using the following command:
 ```
 git clone https://github.com/NVIDIA-AI-Blueprints/3d-guided-genai-rtx.git && cd 3d-guided-genai-rtx && setup.bat
 ```
+The Setup script will install several 3rd party software packages, by installing this blueprint you agree to the individual licenses for these software packages:
+* Microsoft Visual C++ 2015-2022 Redistributable Package
+* Blender
+* Microsoft VisualStudio 2022 BuildTools
+  
 During the setup process you will be instructed to agree to the 3rd party licenses to continue. Press "y" and enter to accept the licenses and continue the installation.
 
 Select <code>Yes</code> when presented with the User Account Control dialog.
@@ -108,8 +124,9 @@ As part of the setup process the NIM models will be downloaded and cached on the
 Installation may take up to 90 minutes depending on download speed.  
 Once complete the installation will list the ComfyUI Path, and Python Path, this information can be used to verify the settings in the Blender ComfyUI add-on.   
 ![Untitled-5](https://github.com/user-attachments/assets/ef8f876b-883a-4afe-8820-5b97908da86c)
+</details>
 
-# Configure Blender:
+<details><summary><h1>STEP 5 - Configure Blender</h1></summary>
 
 Once installation is complete start Blender and press open Preferences from the menu: Edit \>\>Preferences  
 ![Untitled-9](https://github.com/user-attachments/assets/c86d710d-39bf-48a4-8fc8-48b59ae16ebd)
@@ -119,8 +136,9 @@ Expand the ComfyUI BlenderAI node section by clicking on the \>
 ![Untitled-10](https://github.com/user-attachments/assets/a8667460-d3ae-4e57-8bfe-10853dc2f7a1)
 
 The Add-On will attempt to automatically configure the paths for the ComfyUI and Comfy Python locations. In the ComfyUI Path and the Python Path configuration section, verify that these paths match the paths shown at the end of the blueprint installation process. Alternatively, you can click the folder icon and navigate to the installation location and select the ComfyUI folder, and the python\_embedded folder in the ComfyUI installation. 
+</details>
 
-## Open the Blueprint Blender File
+<details><summary><h1>STEP 6 - Running the Workflow</h1></summary>
 
 From the Blender menu select File \>\> Open  
 ![Untitled-11](https://github.com/user-attachments/assets/0bec5bae-8cdb-4eff-a20e-569cf6a159f6)
@@ -149,8 +167,6 @@ If the Run button does not appear or the **Launch/Connect to ComfyUI** reappears
 Click the Run button.
 
 The first time the FLUX NIM is utilized it will need to download models from NVIDIA NGC and setup the FLUX NIM container, this process can take up to 20 minutes or more depending on the connection speed.
-
-# Guided GenAI Workflow
 
 There will be an initial connection delay when first connecting to the NIM during a session which may take between 2-5 minutes. 
 
@@ -223,6 +239,6 @@ Click the ![image125](https://github.com/user-attachments/assets/065a8cc9-460e-4
 Click the ![image126](https://github.com/user-attachments/assets/fddc145f-ac73-4228-9639-e69be7abc8bd) icon again to restart ComfyUI, or click the **Launch/Connect to ComfyUI** button.
 
 Re-run the workflow.
-
+</details>
 
 
