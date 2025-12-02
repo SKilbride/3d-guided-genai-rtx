@@ -347,6 +347,7 @@ def get_and_extract(url, location, overwrite, basefolder=os.getcwd()):
                         
             repo_id = element.repo_id
             f_name = element.url_parts.path.split('/blob/main/')[1]
+            f_name = urllib.parse.unquote(f_name)
             l_dir = element.local_path + '/' + f_name
 
             enable_progress_bars()

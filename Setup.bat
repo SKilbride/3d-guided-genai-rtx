@@ -48,8 +48,7 @@ goto :END
 echo.
 echo This blueprint will install the following third party software:
 echo     *  Blender 4.2 LTS - license - https://www.blender.org/about/license/
-echo     *  MICROSOFT VISUAL C++ 2015 - 2022 RUNTIME - license - https://visualstudio.microsoft.com/license-terms/vs2022-cruntime/
-echo     *  MICROSOFT VISUAL STUDIO 2022 - BUILD TOOLS - license - https://visualstudio.microsoft.com/license-terms/vs2022-ga-diagnosticbuildtools/
+echo     *  7zip - license - https://www.7-zip.org/license.txt
 echo By installing this blueprint you accept the license agreements for the third party software shown above.
 :prompt_loop
 set "choice="
@@ -101,44 +100,9 @@ if "!choice_lower!"=="y" (
 
 :start_install
 pushd "%~dp0"
+set "base_dir=%~dp0"
+set "comfyui_install_dir=%~dp0ComfyUI_windows_portable\"
 echo Running with administrator privileges.
-
-set "distro_name=NVIDIA-Workbench"
-echo Checking for WSL distribution "%distro_name%"...
-wsl -d %distro_name% echo OK >nul 2>&1
-set "distro_exists=!errorlevel!"
-if !distro_exists! equ 0 (
-    echo "%distro_name%" found.
-    echo Checking if Podman is installed in "%distro_name%"...
-    wsl -d %distro_name% podman --version >nul 2>&1
-    set "podman_installed=!errorlevel!"
-    if !podman_installed! equ 0 (
-        echo Podman is installed in "%distro_name%"
-        goto :WSL_Ready
-    ) else (
-        echo Podman is NOT installed in "%distro_name%"
-        echo AI Workbench is installed, but not fully configured for this blueprint.
-        echo Please open NVIDIA AI Workbench and configure Podman before re-running the blueprint installer.
-        goto :WSL_Not_Ready
-    )
-) else (
-    echo "%distro_name%" was not found...
-    echo Please download and complete the NIMSetup installation, a restart will be required,
-    echo then re-run the blueprint installer.
-    echo Download link: https://assets.ngc.nvidia.com/products/api-catalog/rtx/NIM_Prerequisites_Installer_03052025.zip
-    goto :WSL_Not_Ready
-)
-
-:WSL_Not_Ready
-echo.
-echo Script completed with prerequisites not fully met.
-pause
-exit /b 1
-
-:WSL_Ready
-echo NVIDIA-Workbench is properly configured for this blueprint
-set "base_dir=%cd%"
-set "comfyui_install_dir=.\ComfyUI_windows_portable\"
 
 IF "%~1"=="" (
     GOTO :CheckExistingComfyInstall
@@ -184,11 +148,10 @@ SET manifestFile=%1
 SET "customManifest=True"
 
 :CheckExistingComfyInstall
-IF EXIST %comfyui_install_dir%comfyui (
+IF EXIST "%comfyui_install_dir%comfyui" (
     GOTO :GetUserInput
 )
-IF EXIST %comfyui_install_dir%ComfyUI_windows_portable\comfyui (
-    SET "comfyui_install_dir=%comfyui_install_dir%ComfyUI_windows_portable\"
+IF EXIST "%comfyui_install_dir%ComfyUI" (
     GOTO :GetUserInput
 )
 GOTO :StartInstall
@@ -211,25 +174,40 @@ IF "%choice%"=="1" (
 )
 
 :StartInstall
+ECHO Install 7-zip
+winget install -e --id 7zip.7zip --silent
+ECHO.
 ECHO Download ComfyUI
 curl -OL https://github.com/comfyanonymous/ComfyUI/releases/latest/download/ComfyUI_windows_portable_nvidia.7z
 IF %ERRORLEVEL% NEQ 0 (
     ECHO Problem with file download, try again
     EXIT
-) ELSE (
-    ECHO Extract ComfyUI
-    IF "%comfyui_install_dir%"==".\ComfyUI_windows_portable\" (
-        tar -xvf .\ComfyUI_windows_portable_nvidia.7z
-    ) ELSE (
-        mkdir %comfyui_install_dir% 2>nul
-        pushd %comfyui_install_dir%
-        tar -xvf ..\ComfyUI_windows_portable_nvidia.7z
-        popd
-        SET "comfyui_install_dir=%comfyui_install_dir%\ComfyUI_windows_portable\"
-    )
-    echo The current directory is: %CD%
-    GOTO :InstallGit
 )
+
+ECHO.
+ECHO Extract ComfyUI - this may take a few minutes...
+
+:: Set extraction directory
+set "extract_dir=%~dp0"
+
+:: Use 7z to extract the archive
+where 7z.exe >nul 2>&1
+if %ERRORLEVEL% equ 0 (
+    echo Using 7z from PATH...
+    7z x "%extract_dir%ComfyUI_windows_portable_nvidia.7z" -o"%extract_dir%" -y
+) else (
+    echo Using 7z from Program Files...
+    "%ProgramFiles%\7-Zip\7z.exe" x "%extract_dir%ComfyUI_windows_portable_nvidia.7z" -o"%extract_dir%" -y
+)
+
+IF %ERRORLEVEL% NEQ 0 (
+    ECHO Failed to extract ComfyUI archive
+    GOTO :END
+)
+
+echo Extraction complete.
+echo The current directory is: %CD%
+GOTO :InstallGit
 
 :InstallGit
 where git.exe >nul 2>&1
@@ -254,13 +232,30 @@ if exist "%GIT_DEFAULT_PATH%" (
 )
 
 :InstallPythonPackages
+ECHO.
 ECHO Install the Python Dependencies
-ECHO "%comfyui_install_dir%python_embeded\python.exe" -m pip install --no-cache-dir requests gitpython py7zr huggingface-hub validators
+ECHO Python path: "%comfyui_install_dir%python_embeded\python.exe"
+
+IF NOT EXIST "%comfyui_install_dir%python_embeded\python.exe" (
+    ECHO ERROR: Python executable not found at "%comfyui_install_dir%python_embeded\python.exe"
+    ECHO Please check that ComfyUI was extracted correctly.
+    GOTO :END
+)
+
+ECHO Upgrading pip...
 "%comfyui_install_dir%python_embeded\python.exe" -s -m pip install --upgrade pip
+
+ECHO Installing required packages...
 "%comfyui_install_dir%python_embeded\python.exe" -m pip install --no-cache-dir requests gitpython huggingface-hub validators pynvml
 
+IF %ERRORLEVEL% NEQ 0 (
+    ECHO Failed to install Python packages
+    GOTO :END
+)
+
+ECHO.
 ECHO Download the Rest of the content
-ECHO "%comfyui_install_dir%python_embeded\python.exe" -s .\installmill.py %* --baseFolder "%base_dir%" --installFolder "%comfyui_install_dir%"
+ECHO Starting installmill.py...
 start cmd /k "pushd "%~dp0" && "%comfyui_install_dir%python_embeded\python.exe" -s .\installmill.py %* --baseFolder "%base_dir%" --installFolder "%comfyui_install_dir%"
 
 :END
