@@ -14,6 +14,7 @@ This blueprint is for non-commercial use. Contact sales@blackforestlabs.ai for c
 We recommend a minimum of 32 GB of system RAM with 64GB+ recommended.
 
 <details><summary><h1>STEP 1 - Blueprint Download/Installation</h1></summary>
+   
 # Installing the Blueprint:
 Download the latest release of the Blueprint installer: https://github.com/SKilbride/3d-guided-genai-rtx/releases
 
@@ -92,8 +93,8 @@ You may notice that fields in some of the nodes are missing information, we need
 
 <img width="463" height="722" alt="Nodes" src="https://github.com/user-attachments/assets/1a8ba096-92b6-486e-b58f-c21245c19c47" />
 
-In the UNET Model node se;ec the unet_name field and select flux1-depth-dev-nvfp4.safetensors
-In the Dual Clip Loader select the clip1_name field and select t5xxl_fp8_e4m_scaled.safetensors from the dropdown.  (The clip2_name field should contain clip_l.safetensors)
+In the <ins>UNET Model</ins> node select the **unet_name** field and select *flux1-depth-dev-nvfp4.safetensors*
+In the <ins>Dual Clip Loader</ins> select the **clip1_name** field and select *t5xxl_fp8_e4m_scaled.safetensors* from the dropdown.  (The **clip2_name** field should contain clip_l.safetensors)
 
 See the example below for how the graph should look.
 
