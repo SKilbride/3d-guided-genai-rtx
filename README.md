@@ -168,7 +168,7 @@ With the mouse in the upper left viewport press SHIFT \+ \~ to enter navigation 
 
 ### Replace Objects
 
-Click on the fountain object and click delete on the keyboard to remove the motorcycle.  
+Click on the motorcycle object and click delete on the keyboard to remove the motorcycle.  
 <img width="2887" height="1630" alt="Viewport" src="https://github.com/user-attachments/assets/bcf41273-6861-41b3-a11b-a28071bfa19e" />
 
 
