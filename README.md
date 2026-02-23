@@ -73,8 +73,28 @@ The Add-On will attempt to automatically configure the paths for the ComfyUI and
 
 </details>
 
+
 <details><summary><h1>STEP 4 - Correcting the Workflow</h1></summary>
 It may be necessary to fix elements in the workflow which may have gotten unsyncronized.
+
+From the Blender menu select File \>\> Open  
+![Untitled-11](https://github.com/user-attachments/assets/0bec5bae-8cdb-4eff-a20e-569cf6a159f6)
+
+Navigate to Documents \>\> Blender    
+Select the **MotorCycle\_FF\_LF.blend** file  
+
+<img width="1324" height="381" alt="OpenBlendFile" src="https://github.com/user-attachments/assets/aa878062-7fc5-4c57-a4ef-3d1351d748f4" />
+
+Allow the execution of scripts (This script pauses the playback when reaching the end of an animation range instead of looping the animation)
+
+<img width="665" height="293" alt="AllowScripts" src="https://github.com/user-attachments/assets/481b999e-c3e2-4b8c-b475-1ed92bcecb9a" />
+
+
+<img width="2887" height="1630" alt="Viewport" src="https://github.com/user-attachments/assets/e0872b44-1ae2-4ad0-8c32-5658fd20252d" />
+
+Click in the 3D viewport and hen press spacebar to play the animation which builds the scene.
+
+<img width="1831" height="1196" alt="built_VP" src="https://github.com/user-attachments/assets/ef21bdea-53d0-47fd-aff1-ea86c1bc582f" />
 
 <img width="708" height="104" alt="Menu_top" src="https://github.com/user-attachments/assets/3c1682f2-10fd-4f29-9372-6b355a984ec6" />
 
@@ -100,26 +120,6 @@ See the example below for how the graph should look.
 
 </details>
 <details><summary><h1>STEP 5 - Running the Workflow</h1></summary>
-
-From the Blender menu select File \>\> Open  
-![Untitled-11](https://github.com/user-attachments/assets/0bec5bae-8cdb-4eff-a20e-569cf6a159f6)
-
-Navigate to Documents \>\> Blender    
-Select the **MotorCycle\_FF\_LF.blend** file  
-
-<img width="1324" height="381" alt="OpenBlendFile" src="https://github.com/user-attachments/assets/aa878062-7fc5-4c57-a4ef-3d1351d748f4" />
-
-Allow the executionof scripts (This script pauses the playback when reaching the end of an animation range instead of looping the animation)
-
-<img width="665" height="293" alt="AllowScripts" src="https://github.com/user-attachments/assets/481b999e-c3e2-4b8c-b475-1ed92bcecb9a" />
-
-
-<img width="2887" height="1630" alt="Viewport" src="https://github.com/user-attachments/assets/e0872b44-1ae2-4ad0-8c32-5658fd20252d" />
-
-Click in the 3D viewport and hen press spacebar to play the animation which builds the scene.
-
-<img width="1831" height="1196" alt="built_VP" src="https://github.com/user-attachments/assets/ef21bdea-53d0-47fd-aff1-ea86c1bc582f" />
-
 
 If necessary expand the panel in the upper left viewport by clicking on the \< indicator. Alternatively move the mouse into the upper left viewport and press the “n” key on the keyboard.
 
