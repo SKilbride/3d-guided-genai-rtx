@@ -51,11 +51,6 @@ Expect a command terminal window to be displayed with output as the ComfyUI serv
 
 </details>
 
-<details><summary><h2>Linux - TBD</h2></summary>
-   
-   TBD
-   
-</details>
 
 Once ComfyUI has started the ComfyUI node graph interface should open in the default web browser, on first run the ComfyUI Template Broswer will generally be displayed
 
