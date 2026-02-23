@@ -104,7 +104,8 @@ Select the First Frame Node Tree from the drop down in the top middle of the vie
 <img width="551" height="179" alt="FirstFrame" src="https://github.com/user-attachments/assets/2bb99b26-28f5-42eb-9f58-04fbda69d8d2" />
 
 
-You may notice that fields in some of the nodes are missing information, we need to correct this before the workflow can run properly
+You may notice that fields in some of the nodes are missing information, we need to correct this before the workflow can run properly.
+**NOTE: Even if the nodes are not missing model entries, they may still have the *wrong* model entries active initially.**
 
 <img width="463" height="722" alt="Nodes" src="https://github.com/user-attachments/assets/1a8ba096-92b6-486e-b58f-c21245c19c47" />
 
